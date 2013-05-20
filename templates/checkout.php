@@ -166,42 +166,8 @@
 	<tbody>                
 		<tr>
 			<td>
-				<div>
-					<label for="username">Username</label>
-					<input id="username" name="username" type="text" class="input <?php echo pmpro_getClassForField("username");?>" size="30" value="<?php echo esc_attr($username)?>" /> 
-				</div>
 				
-				<?php
-					do_action('pmpro_checkout_after_username');
-				?>
-				
-				<div>
-					<label for="password">Password</label>
-					<input id="password" name="password" type="password" class="input <?php echo pmpro_getClassForField("password");?>" size="30" value="<?php echo esc_attr($password)?>" /> 
-				</div>
-				<?php
-					$pmpro_checkout_confirm_password = apply_filters("pmpro_checkout_confirm_password", true);					
-					if($pmpro_checkout_confirm_password)
-					{
-					?>
-					<div>
-						<label for="password2">Confirm Password</label>
-						<input id="password2" name="password2" type="password" class="input <?php echo pmpro_getClassForField("password2");?>" size="30" value="<?php echo esc_attr($password2)?>" /> 
-					</div>
-					<?php
-					}
-					else
-					{
-					?>
-					<input type="hidden" name="password2_copy" value="1" />
-					<?php
-					}
-				?>
-				
-				<?php
-					do_action('pmpro_checkout_after_password');
-				?>
-				
+
 				<div>
 					<label for="bemail">E-mail Address</label>
 					<input id="bemail" name="bemail" type="text" class="input <?php echo pmpro_getClassForField("bemail");?>" size="30" value="<?php echo esc_attr($bemail)?>" /> 
@@ -229,7 +195,42 @@
 				<?php
 					do_action('pmpro_checkout_after_email');
 				?>
+
+
+				<div>
+					<label for="password">Password</label>
+					<input id="password" name="password" type="password" class="input <?php echo pmpro_getClassForField("password");?>" size="30" value="<?php echo esc_attr($password)?>" /> 
+				</div>
+				<?php
+					$pmpro_checkout_confirm_password = apply_filters("pmpro_checkout_confirm_password", true);					
+					if($pmpro_checkout_confirm_password)
+					{
+					?>
+					<div>
+						<label for="password2">Confirm Password</label>
+						<input id="password2" name="password2" type="password" class="input <?php echo pmpro_getClassForField("password2");?>" size="30" value="<?php echo esc_attr($password2)?>" /> 
+					</div>
+					<?php
+					}
+					else
+					{
+					?>
+					<input type="hidden" name="password2_copy" value="1" />
+					<?php
+					}
+				?>
 				
+				<?php
+					do_action('pmpro_checkout_after_password');
+				?>
+				
+
+				<input type="hidden" name="username" value="pmpro_email" /> 
+				<?php
+					do_action('pmpro_checkout_after_username');
+				?>
+				
+
 				<div class="pmpro_hidden">
 					<label for="fullname">Full Name</label>
 					<input id="fullname" name="fullname" type="text" class="input <?php echo pmpro_getClassForField("fullname");?>" size="30" value="" /> <strong>LEAVE THIS BLANK</strong>

@@ -219,10 +219,45 @@
 		$temp_content = ob_get_contents();
 		ob_end_clean();
 		return $temp_content;
-	}	
+	}
+
+	// This function sets the username to the email address
+	// used when registering, eliminating the need to have a
+	// separate username field.
+	function my_pmpro_email_to_username() {
+		if(!empty($_REQUEST) && $_REQUEST == "pmpro_email") {
+			$_REQUEST = $_REQUEST;
+		}
+	}
 
 
-
+	// Allows the user of + in a username in wordpress 
+	// to allow emails to be used as usernames
+	function pmprorh_sanitize_user( $username, $raw_username, $strict = false ) 
+	{			
+		//only check if there is a + in the raw username
+		if(strpos($raw_username, "+") === false)
+			return $username;
+		
+		//start over
+		$username = $raw_username;
+		
+		$username = wp_strip_all_tags( $username );
+		$username = remove_accents( $username );
+		// Kill octets	
+		$username = preg_replace( '|%([a-fA-F0-9][a-fA-F0-9])|', '', $username );
+		$username = preg_replace( '/&.+?;/', '', $username ); // Kill entities
+	 
+		// If strict, reduce to ASCII for max portability.
+		if ( $strict )
+			$username = preg_replace( '|[^a-z0-9 _.\-@\+]|i', '', $username );		//added a + here
+			
+		$username = trim( $username );
+		// Consolidate contiguous whitespace
+		$username = preg_replace( '|\s+|', ' ', $username );
+	 
+		return $username;
+	}
 
 
 		add_action("pmpro_checkout_after_level_cost", "my_pmpro_checkout_after_level_cost");
@@ -234,5 +269,8 @@
 		add_filter("pmpro_pages_shortcode_checkout", "my_pmpro_pages_shortcode_checkout");
 		add_filter("pmpro_pages_shortcode_confirmation", "my_pmpro_pages_shortcode_confirmation");
 		add_filter("pmpro_pages_shortcode_account", "my_pmpro_pages_shortcode_account");
+
+		add_filter("sanitize_user", "pmprorh_sanitize_user", 1, 3);
+		add_action("init", "my_pmpro_email_to_username");		
 
 ?>
